@@ -14,7 +14,7 @@ const i2c_config_t I2C::conf = {
   .master = { 
     .clk_speed =    SCCB_FREQ 
   },
-  .clk_flags =      0,  // TODO: Poista?
+  .clk_flags =      0,
 };
 
 i2c_cmd_handle_t I2C::cmd = NULL;
@@ -22,21 +22,27 @@ i2c_cmd_handle_t I2C::cmd = NULL;
 
 void I2C::init() {
   i2c_param_config(PORT, &conf);
-  
-  // Clock periods
-  /*uint32_t clk_high_period = 600; // Min. 600 ns
-  uint32_t clk_low_period = 1300;   // Min. 1.3 us
-  i2c_set_period(PORT_NUM, clk_high_period, clk_low_period);
-  
-  // Sample times
-  uint32_t sda_sample_time = 100; // Min. 100 ns
-  uint32_t sda_hold_time = 100;   // Min. 0
-  i2c_set_data_timing(PORT_NUM, sda_sample_time, sda_hold_time);
 
-  // Hold times
-  uint32_t start_setup_time = 600;  // Min. 600 ns
-  uint32_t start_hold_time = 600;   // Min. 600 ns
-  i2c_set_start_timing(PORT_NUM, start_setup_time, start_hold_time);*/
+  // Clock periods
+  // Generate square wave: 50% high, 50% low
+  uint32_t clk_high_period = (SCCB_FREQ / 2);  // min. 600 ns // set 2.5 us (200kHz)
+  uint32_t clk_low_period = (SCCB_FREQ / 2);   // min. 1.3 us // set 2.5 us (200kHz)
+  i2c_set_period(PORT, clk_high_period, clk_low_period);
+  
+  // Clock START
+  uint32_t start_setup_time = (SCCB_FREQ / 4); // min. 600 ns // set 1.2 us (200kHz)
+  uint32_t start_hold_time = (SCCB_FREQ / 4);  // min. 600 ns // set 1.2 us (200kHz)
+  i2c_set_start_timing(PORT, start_setup_time, start_hold_time);
+  
+  // Clock STOP
+  uint32_t stop_setup_time = (SCCB_FREQ / 4);  // min. 600 ns // set 1.2 us (200kHz)
+  uint32_t stop_hold_time = (SCCB_FREQ / 8);   // min. n/a    // set 0.6 us (200kHz)
+  i2c_set_stop_timing(PORT, stop_setup_time, stop_hold_time);
+  
+  // Data periods
+  uint32_t sda_sample_time = (SCCB_FREQ / 32); // min. 100 ns // set 0.15 us (200kHz)
+  uint32_t sda_hold_time = 0;                  // min. 0      // set 0
+  i2c_set_data_timing(PORT, sda_sample_time, sda_hold_time);
 
   i2c_driver_install(PORT, I2C_MODE_MASTER, 0, 0, 0);
 };

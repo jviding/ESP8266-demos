@@ -10,8 +10,8 @@
 #define DEVICE_ADDR_WRITE ((DEVICE_ADDR << 1) | 0x00) // 0x42
 #define DEVICE_ADDR_READ  ((DEVICE_ADDR << 1) | 0x01) // 0x43
 
-#define PIN_SDA       GPIO_NUM_21
-#define PIN_SCL       GPIO_NUM_22
+#define PIN_SDA       GPIO_NUM_26 //GPIO_NUM_21
+#define PIN_SCL       GPIO_NUM_27 //GPIO_NUM_22
 
 #define PORT          I2C_NUM_0   
 #define TIMEOUT       (1000 / portTICK_PERIOD_MS)     // Approx. 1000ms
