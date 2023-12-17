@@ -1,10 +1,9 @@
-//#include "sccb/sccb.h"
 #include "xclk/xclk.h"
+#include "i2c/i2c.h"
 //#include "cam_config/cam_config.h"
 //#include "cam_data/cam_data.h"
 //#include "cam/cam.h"
 //#include "logger/logger.h"
-//#include "i2c/i2c.h"
 
 #include "driver/uart.h"
 
@@ -15,8 +14,6 @@ uart_config_t uart_config = {
     .stop_bits = UART_STOP_BITS_1,
     .flow_ctrl = UART_HW_FLOWCTRL_DISABLE
 };
-
-//#include <Arduino.h>
 
 extern "C" {
   void app_main(void);
@@ -42,47 +39,35 @@ extern "C" {
 
 void setup() {
   XCLK::start();
+  I2C::init();
 
   //Serial.begin(115200);
   //Cam::init(config);
 
   //Serial.println("Testing VGA...");
   //CamConfig::setOutputVGAAndFormatRGB565();
-
-  //I2C::init();
-  //delay(200);
-
-  //SCCB::init(21, 22);
 };
 
-void loop() {
-  printf("Hello");
-  fflush(stdout);
+void loop() { 
   //Serial.println("Image!");
   //Cam::captureImage();
   //CamData::testing();
   //delay(5000);
-  
-  //I2C::writeRegister(0x0A, 0x44);
-  //delay(1000);
-  
-  //SCCB::writeRegister(0x0A, 0x44);
 
-  //Serial.println("Read reg:");
-  //uint8_t data = I2C::readRegister(0x0A);
-  //Serial.println(data); // Should print 0x76
-  //delay(1);
+  printf("Next\n");
+  fflush(stdout);
+
+  //I2C::writeRegister(0x0A, 0x44);
+  uint8_t val = I2C::readRegister(0x0A); // Returns 0x76
+
+  printf("Val: %#x\n", static_cast<int>(val));
+  fflush(stdout);
+
+  //printf("Val read...");
+  //printf("Val: %#x\n", static_cast<int>(0xAB));
+  //fflush(stdout);
 
 };
-
-/*
-void delay_ns(long ns) {
-  struct timespec ts;
-  ts.tv_sec = 0;
-  ts.tv_nsec = ns;
-  nanosleep(&ts, NULL);
-}
-*/
 
 void app_main() {
   printf("Started");
