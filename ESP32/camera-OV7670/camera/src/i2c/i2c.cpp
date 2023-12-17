@@ -12,7 +12,7 @@ const i2c_config_t I2C::conf = {
   .sda_pullup_en =  GPIO_PULLUP_ENABLE,
   .scl_pullup_en =  GPIO_PULLUP_ENABLE,
   .master = { 
-    .clk_speed =    SCCB_FREQ 
+    .clk_speed =    SCCB_FREQ,
   },
   .clk_flags =      0,
 };
@@ -23,26 +23,25 @@ i2c_cmd_handle_t I2C::cmd = NULL;
 void I2C::init() {
   i2c_param_config(PORT, &conf);
 
-  // Clock periods
-  // Generate square wave: 50% high, 50% low
-  uint32_t clk_high_period = (SCCB_FREQ / 2);  // min. 600 ns // set 2.5 us (200kHz)
-  uint32_t clk_low_period = (SCCB_FREQ / 2);   // min. 1.3 us // set 2.5 us (200kHz)
-  i2c_set_period(PORT, clk_high_period, clk_low_period);
+  /*// Clock periods
+  //uint32_t clk_high_period; // min. 600 ns
+  //uint32_t clk_low_period;  // min. 1.3 us
+  //i2c_set_period(PORT, clk_high_period, clk_low_period);
   
   // Clock START
-  uint32_t start_setup_time = (SCCB_FREQ / 4); // min. 600 ns // set 1.2 us (200kHz)
-  uint32_t start_hold_time = (SCCB_FREQ / 4);  // min. 600 ns // set 1.2 us (200kHz)
+  uint32_t start_setup_time;  // min. 600 ns
+  uint32_t start_hold_time;   // min. 600 ns
   i2c_set_start_timing(PORT, start_setup_time, start_hold_time);
   
   // Clock STOP
-  uint32_t stop_setup_time = (SCCB_FREQ / 4);  // min. 600 ns // set 1.2 us (200kHz)
-  uint32_t stop_hold_time = (SCCB_FREQ / 8);   // min. n/a    // set 0.6 us (200kHz)
+  uint32_t stop_setup_time;   // min. 600 ns 
+  uint32_t stop_hold_time;    // min. n/a    
   i2c_set_stop_timing(PORT, stop_setup_time, stop_hold_time);
   
   // Data periods
-  uint32_t sda_sample_time = (SCCB_FREQ / 32); // min. 100 ns // set 0.15 us (200kHz)
-  uint32_t sda_hold_time = 0;                  // min. 0      // set 0
-  i2c_set_data_timing(PORT, sda_sample_time, sda_hold_time);
+  uint32_t sda_sample_time;   // min. 100 ns
+  uint32_t sda_hold_time;     // min. 0
+  i2c_set_data_timing(PORT, sda_sample_time, sda_hold_time);*/
 
   i2c_driver_install(PORT, I2C_MODE_MASTER, 0, 0, 0);
 };
@@ -61,7 +60,7 @@ void I2C::stop() {
 
 void I2C::writeByte(uint8_t data) { 
   i2c_master_write_byte(cmd, data, false);
-  // esp_err_t er =
+  // esp_err_t er;
   // if (er != ESP_OK) {}
 };
 

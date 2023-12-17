@@ -14,9 +14,8 @@
 #define PIN_SCL       GPIO_NUM_27 //GPIO_NUM_22
 
 #define PORT          I2C_NUM_0   
-#define TIMEOUT       (1000 / portTICK_PERIOD_MS)     // Approx. 1000ms
-#define SCCB_FREQ     (200 * 1000 )                   // 200 kHz
-
+#define TIMEOUT       (1000 / portTICK_PERIOD_MS) // Approx. 1000ms
+#define SCCB_FREQ     (200 * 1000)                // 200kHz
 
 class I2C {
 public:
