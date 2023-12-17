@@ -18,6 +18,7 @@ const i2c_config_t I2C::conf = {
 };
 
 i2c_cmd_handle_t I2C::cmd = NULL;
+uint8_t I2C::i2c_data_in = 0x00;
 
 
 void I2C::init() {
@@ -60,14 +61,11 @@ void I2C::stop() {
 
 void I2C::writeByte(uint8_t data) { 
   i2c_master_write_byte(cmd, data, false);
-  // esp_err_t er;
-  // if (er != ESP_OK) {}
 };
 
-uint8_t I2C::readByte() {
-  uint8_t data;
-  i2c_master_read_byte(cmd, &data, I2C_MASTER_NACK);
-  return data;
+void I2C::readByte() {
+  i2c_data_in = 0x00;
+  i2c_master_read_byte(cmd, &i2c_data_in, I2C_MASTER_NACK);
 };
 
 void I2C::writeRegister(uint8_t reg, uint8_t val) {
@@ -85,7 +83,7 @@ uint8_t I2C::readRegister(uint8_t reg) {
   stop();
   start();
   writeByte(DEVICE_ADDR_READ);
-  uint8_t val = readByte();
+  readByte();
   stop();
-  return val;
+  return i2c_data_in;
 };

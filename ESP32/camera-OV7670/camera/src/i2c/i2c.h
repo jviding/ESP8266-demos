@@ -28,10 +28,11 @@ private:
   // Variables
   static const i2c_config_t conf;
   static i2c_cmd_handle_t cmd;
+  static uint8_t i2c_data_in;
 
   // Functions
   static void start();
   static void stop();
   static void writeByte(uint8_t data);
-  static uint8_t readByte();
+  static void readByte();
 };
