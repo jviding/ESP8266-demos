@@ -21,8 +21,8 @@ class I2C {
 public:
   // Functions
   static void init();
-  static void writeRegister(uint8_t reg, uint8_t val);
-  static uint8_t readRegister(uint8_t reg);
+  static void write_register(uint8_t reg, uint8_t val);
+  static uint8_t read_register(uint8_t reg);
 
 private:
   // Variables
@@ -33,6 +33,6 @@ private:
   // Functions
   static void start();
   static void stop();
-  static void writeByte(uint8_t data);
-  static void readByte();
+  static void write_byte(uint8_t data);
+  static void read_byte();
 };

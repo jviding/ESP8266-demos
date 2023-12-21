@@ -59,31 +59,31 @@ void I2C::stop() {
   cmd = NULL;
 };
 
-void I2C::writeByte(uint8_t data) { 
+void I2C::write_byte(uint8_t data) { 
   i2c_master_write_byte(cmd, data, false);
 };
 
-void I2C::readByte() {
+void I2C::read_byte() {
   i2c_data_in = 0x00;
   i2c_master_read_byte(cmd, &i2c_data_in, I2C_MASTER_NACK);
 };
 
-void I2C::writeRegister(uint8_t reg, uint8_t val) {
+void I2C::write_register(uint8_t reg, uint8_t val) {
   start();
-  writeByte(DEVICE_ADDR_WRITE);
-  writeByte(reg);
-  writeByte(val);
+  write_byte(DEVICE_ADDR_WRITE);
+  write_byte(reg);
+  write_byte(val);
   stop();
 };
 
-uint8_t I2C::readRegister(uint8_t reg) {
+uint8_t I2C::read_register(uint8_t reg) {
   start();
-  writeByte(DEVICE_ADDR_WRITE);
-  writeByte(reg);
+  write_byte(DEVICE_ADDR_WRITE);
+  write_byte(reg);
   stop();
   start();
-  writeByte(DEVICE_ADDR_READ);
-  readByte();
+  write_byte(DEVICE_ADDR_READ);
+  read_byte();
   stop();
   return i2c_data_in;
 };
